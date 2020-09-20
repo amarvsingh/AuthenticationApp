@@ -1,4 +1,5 @@
 import 'package:authentication_app/UI/signup.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';
@@ -6,6 +7,7 @@ import 'login.dart';
 class HomeButtons extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     // TODO: implement build
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

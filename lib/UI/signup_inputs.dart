@@ -1,10 +1,23 @@
-import 'package:authentication_app/UI/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignupInputs extends StatelessWidget{
+  //Declaring Database references
+  final FirebaseAuth authSignUp = FirebaseAuth.instance;
+
+  //The variables required to save the inputs
+  String fullname = "";
+  String email = "";
+  String password = "";
+  String confirmPassword = "";
+
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     // TODO: implement build
     return Container(
       child: Column(
@@ -31,12 +44,15 @@ class SignupInputs extends StatelessWidget{
           ),
         ),
           TextField(
+            onChanged: (fullnameInput){
+              fullname = fullnameInput;
+            },
             decoration: InputDecoration(
               labelStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
               ),
-              labelText: "Enter the Fullname:",
+              labelText: "Enter Fullname:",
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.white,
@@ -54,12 +70,15 @@ class SignupInputs extends StatelessWidget{
             ),
           ),
           TextField(
+            onChanged: (emailInput){
+              email = emailInput;
+            },
             decoration: InputDecoration(
               labelStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
               ),
-              labelText: "Enter the Email:",
+              labelText: "Enter Email:",
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.white,
@@ -77,12 +96,15 @@ class SignupInputs extends StatelessWidget{
             ),
           ),
           TextField(
+            onChanged: (passwordInput){
+              password = passwordInput;
+            },
             decoration: InputDecoration(
               labelStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
               ),
-              labelText: "Enter the Password:",
+              labelText: "Enter Password:",
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.white,
@@ -101,6 +123,9 @@ class SignupInputs extends StatelessWidget{
             obscureText: true,
           ),
           TextField(
+            onChanged: (confirmPasswordInput){
+              confirmPassword = confirmPasswordInput;
+            },
             decoration: InputDecoration(
               labelStyle: TextStyle(
                 color: Colors.white,
@@ -126,7 +151,7 @@ class SignupInputs extends StatelessWidget{
           ),
           GestureDetector(
             onTap: (){
-
+              validateAndSignup(fullname, email, password, confirmPassword);
             },
             child: Container(
               child: Text(
@@ -153,7 +178,7 @@ class SignupInputs extends StatelessWidget{
               ),
               width: double.infinity,
               margin: EdgeInsets.symmetric(
-                horizontal: 30.0,
+                horizontal: 20.0,
                 vertical: 30.0,
               ),
               padding: EdgeInsets.symmetric(
@@ -163,11 +188,60 @@ class SignupInputs extends StatelessWidget{
             ),
           ),
       ],),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white,
+          width: 3.0,
+        ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       margin: EdgeInsets.all(20),
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
-        horizontal: 10.0,
+        horizontal: 30.0,
       ),
     );
+  }
+
+  //Method to validate the function (Nested Validation)
+  void validateAndSignup(String fullname, String email, String password, String confirmPassword) {
+    //Handling the inputs
+    if (fullname.isNotEmpty && email.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty){//To check that no field is empty
+      //Pattern matching for the email
+      Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      if (regex.hasMatch(email)){
+        if (password == confirmPassword){
+          signUpWithEmailandPassword(fullname, email, password, confirmPassword);
+        }
+        else{
+          //Handle error for non matching passwords
+          Fluttertoast.showToast(msg: "The passwords you have entered do not match!");
+        }
+      }
+      else{
+        //Handle error for incorrect email format
+        Fluttertoast.showToast(msg: "Please enter a valid email address!");
+      }
+    }
+    else{
+      //Handle error if any field is empty
+      Fluttertoast.showToast(msg: "Please fill all the fields!");
+    }
+  }
+
+  //Method to Create account and add user data into the databse as well
+  void signUpWithEmailandPassword(String fullname, String email, String password, String confirmPassword) async {
+    //Declaring Database references
+    FirebaseUser userSignUp;
+
+    //Creating account using inbuilt function
+    try{
+      userSignUp = (await authSignUp.createUserWithEmailAndPassword(email: email, password: password)) as FirebaseUser;
+    }
+    catch(e){
+      //Handle Exceptions
+      Fluttertoast.showToast(msg: "Some unknown error occoured!");
+    }
   }
 }

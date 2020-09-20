@@ -1,7 +1,10 @@
 import 'package:authentication_app/UI/homeButtons.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main(){
+  Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -19,11 +22,28 @@ class MyApp extends StatelessWidget{
       home: Material(
         child: Container(
           child: SafeArea(
-            child: Column(children: <Widget>[
-              Container(
-                height: 600.0,
-              ),
-              HomeButtons(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  child: Image(
+                    image: AssetImage("assets/images/logo1.png"),
+                  ),
+                  margin: EdgeInsets.all(20.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 30.0,
+                    horizontal: 30.0
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.1),
+                      width: 2.0,
+                    ),
+                    //color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                HomeButtons(),
             ],)
           ),
           decoration: BoxDecoration(gradient: LinearGradient(

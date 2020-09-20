@@ -1,8 +1,20 @@
+import 'package:authentication_app/UI/logout.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatelessWidget{
+  //Declaring Database references
+  final FirebaseAuth authLogIn = FirebaseAuth.instance;
+
+  //To declare the variables required for the inputs
+  String email = "";
+  String password = "";
+
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -39,6 +51,9 @@ class Login extends StatelessWidget{
                     ),
                   ),
                   TextField(
+                    onChanged: (emailInput){
+                      email = emailInput;
+                    },
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
                         color: Colors.white,
@@ -62,6 +77,9 @@ class Login extends StatelessWidget{
                     ),
                   ),
                   TextField(
+                    onChanged: (passwordInput){
+                       password = passwordInput;
+                    },
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
                         color: Colors.white,
@@ -86,8 +104,12 @@ class Login extends StatelessWidget{
                     obscureText: true,
                   ),
                   GestureDetector(
-                    onTap: (){
-
+                    onTap: () async {
+                      await validateAndLogin(email, password, context);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(builder: (context) => Logout())
+                      // );
                     },
                     child: Container(
                       child: Text(
@@ -123,12 +145,58 @@ class Login extends StatelessWidget{
                       ),
                     ),
                   ),
+                  GestureDetector(
+                    onTap: (){
+                      logOut();
+                    },
+                    child: Container(
+                      child: Text(
+                        "LOG OUT!",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30.0),
+                        boxShadow: [new BoxShadow(
+                          color: Colors.black,
+                          spreadRadius: 1.0,
+                          blurRadius: 2.0,
+                          offset: Offset(
+                            3.0,
+                            3.0,
+                          ),
+                        ),],
+                      ),
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 30.0,
+                        vertical: 30.0,
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                    ),
+                  ),
                 ],),
+              margin:  EdgeInsets.all(20),
+              padding: EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 20.0,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white,
+                  width: 3.0,
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
             ),
-          ),
-          padding: EdgeInsets.symmetric(
-            vertical: 20.0,
-            horizontal: 20.0,
           ),
           decoration: BoxDecoration(gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -144,4 +212,53 @@ class Login extends StatelessWidget{
     );
   }
 
+  //Method to validate the inputs
+  void validateAndLogin(String email, String password, BuildContext context) {
+    if (email.isNotEmpty && password.isNotEmpty){
+      //Pattern matching for the email
+      Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      if (regex.hasMatch(email)){
+        if (password.length >= 6){
+          signinWithEmailAndPassword(email, password, context);
+        }
+        else{
+          //To handle insuffiicient password length
+          Fluttertoast.showToast(msg: "Password length should be more than 6 characters!");
+        }
+      }
+      else{
+        //To handle the incorrect email format
+        Fluttertoast.showToast(msg: "Please enter a valid email address!");
+      }
+    }
+    else{
+      //Handling the error if fields are empty
+      Fluttertoast.showToast(msg: "Please fill all the fields!");
+    }
+  }
+
+  void signinWithEmailAndPassword(String email, String password, BuildContext context) async {
+    //Declaring Database references
+    FirebaseUser userLogIn;
+
+    //Creating account using inbuilt function
+    try{
+       await authLogIn.signInWithEmailAndPassword(email: email, password: password);
+       Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => Logout())
+       );
+    }
+    catch(e){
+      //Handle Exceptions
+      print(e);
+      Fluttertoast.showToast(msg: "Some unknown error occoured!");
+    }
+  }
+
+  void logOut() async {
+    final FirebaseAuth authLogOut = FirebaseAuth.instance;
+    await authLogOut.signOut();
+  }
 }
