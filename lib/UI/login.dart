@@ -16,200 +16,158 @@ class Login extends StatelessWidget{
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     // TODO: implement build
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Login",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Material(
-        child: Container(
-          child: SafeArea(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      "Enter the Credentials",
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Login",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Material(
+          child: Container(
+            child: SafeArea(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        "Enter the Credentials",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.0,
+                        ),
+                      ),
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        //color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(color: Colors.white, width: 2.0),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 15.0,
+                        horizontal: 15.0,
+                      ),
+                    ),
+                    TextField(
+                      onChanged: (emailInput){
+                        email = emailInput;
+                      },
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                        labelText: "Enter the Email:",
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.0,
+                        fontSize: 25.0,
                       ),
                     ),
-                    margin: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      //color: Colors.black.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: Colors.white, width: 2.0),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 15.0,
-                    ),
-                  ),
-                  TextField(
-                    onChanged: (emailInput){
-                      email = emailInput;
-                    },
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      ),
-                      labelText: "Enter the Email:",
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                    TextField(
+                      onChanged: (passwordInput){
+                        password = passwordInput;
+                      },
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
                           color: Colors.white,
+                          fontSize: 20.0,
                         ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                  TextField(
-                    onChanged: (passwordInput){
-                       password = passwordInput;
-                    },
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      ),
-                      labelText: "Enter the Password:",
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.0,
-                    ),
-                    obscureText: true,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await validateAndLogin(email, password, context);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => Logout())
-                      // );
-                    },
-                    child: Container(
-                      child: Text(
-                        "LOG IN!",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0),
-                        boxShadow: [new BoxShadow(
-                          color: Colors.black,
-                          spreadRadius: 1.0,
-                          blurRadius: 2.0,
-                          offset: Offset(
-                            3.0,
-                            3.0,
+                        labelText: "Enter the Password:",
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
                           ),
-                        ),],
-                      ),
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 30.0,
-                        vertical: 30.0,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      logOut();
-                    },
-                    child: Container(
-                      child: Text(
-                        "LOG OUT!",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0),
-                        boxShadow: [new BoxShadow(
-                          color: Colors.black,
-                          spreadRadius: 1.0,
-                          blurRadius: 2.0,
-                          offset: Offset(
-                            3.0,
-                            3.0,
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
                           ),
-                        ),],
+                        ),
                       ),
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 30.0,
-                        vertical: 30.0,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.0,
                       ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
+                      obscureText: true,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        validateAndLogin(email, password, context);
+                      },
+                      child: Container(
+                        child: Text(
+                          "LOG IN!",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30.0),
+                          boxShadow: [new BoxShadow(
+                            color: Colors.black,
+                            spreadRadius: 1.0,
+                            blurRadius: 2.0,
+                            offset: Offset(
+                              3.0,
+                              3.0,
+                            ),
+                          ),],
+                        ),
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 30.0,
+                          vertical: 30.0,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 20.0,
+                        ),
                       ),
                     ),
-                  ),
-                ],),
-              margin:  EdgeInsets.all(20),
-              padding: EdgeInsets.symmetric(
-                vertical: 20.0,
-                horizontal: 20.0,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  width: 3.0,
+                  ],),
+                margin:  EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: 20.0,
                 ),
-                borderRadius: BorderRadius.circular(30),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3.0,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
             ),
+            decoration: BoxDecoration(gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.lightBlue,
+                  Colors.blue,
+                  Colors.deepPurpleAccent,
+                ]
+            ),),
           ),
-          decoration: BoxDecoration(gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.lightBlue,
-                Colors.blue,
-                Colors.deepPurpleAccent,
-              ]
-          ),),
         ),
-      ),
-    );
+      );
   }
 
   //Method to validate the inputs
@@ -239,13 +197,10 @@ class Login extends StatelessWidget{
   }
 
   void signinWithEmailAndPassword(String email, String password, BuildContext context) async {
-    //Declaring Database references
-    FirebaseUser userLogIn;
-
     //Creating account using inbuilt function
     try{
        await authLogIn.signInWithEmailAndPassword(email: email, password: password);
-       Navigator.push(
+       Navigator.pushReplacement(
            context,
            MaterialPageRoute(builder: (context) => Logout())
        );
@@ -255,10 +210,5 @@ class Login extends StatelessWidget{
       print(e);
       Fluttertoast.showToast(msg: "Some unknown error occoured!");
     }
-  }
-
-  void logOut() async {
-    final FirebaseAuth authLogOut = FirebaseAuth.instance;
-    await authLogOut.signOut();
   }
 }

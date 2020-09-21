@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'logout.dart';
 
 class SignupInputs extends StatelessWidget{
   //Declaring Database references
@@ -151,7 +151,7 @@ class SignupInputs extends StatelessWidget{
           ),
           GestureDetector(
             onTap: (){
-              validateAndSignup(fullname, email, password, confirmPassword);
+              validateAndSignup(fullname, email, password, confirmPassword, context);
             },
             child: Container(
               child: Text(
@@ -204,7 +204,7 @@ class SignupInputs extends StatelessWidget{
   }
 
   //Method to validate the function (Nested Validation)
-  void validateAndSignup(String fullname, String email, String password, String confirmPassword) {
+  void validateAndSignup(String fullname, String email, String password, String confirmPassword, BuildContext context) {
     //Handling the inputs
     if (fullname.isNotEmpty && email.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty){//To check that no field is empty
       //Pattern matching for the email
@@ -212,7 +212,7 @@ class SignupInputs extends StatelessWidget{
       RegExp regex = new RegExp(pattern);
       if (regex.hasMatch(email)){
         if (password == confirmPassword){
-          signUpWithEmailandPassword(fullname, email, password, confirmPassword);
+          signUpWithEmailandPassword(fullname, email, password, confirmPassword, context);
         }
         else{
           //Handle error for non matching passwords
@@ -231,13 +231,14 @@ class SignupInputs extends StatelessWidget{
   }
 
   //Method to Create account and add user data into the databse as well
-  void signUpWithEmailandPassword(String fullname, String email, String password, String confirmPassword) async {
-    //Declaring Database references
-    FirebaseUser userSignUp;
-
+  void signUpWithEmailandPassword(String fullname, String email, String password, String confirmPassword, BuildContext context) async {
     //Creating account using inbuilt function
     try{
-      userSignUp = (await authSignUp.createUserWithEmailAndPassword(email: email, password: password)) as FirebaseUser;
+      authSignUp.createUserWithEmailAndPassword(email: email, password: password);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Logout())
+      );
     }
     catch(e){
       //Handle Exceptions

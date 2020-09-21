@@ -1,7 +1,9 @@
+import 'package:authentication_app/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Logout extends StatelessWidget {
   @override
@@ -24,11 +26,11 @@ class Logout extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      logOut();
+                      logOut(context);
                     },
                     child: Container(
                       child: Text(
-                        "SIGN UP!",
+                        "Logout!",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 30.0,
@@ -78,8 +80,11 @@ class Logout extends StatelessWidget {
     );
   }
 
-  void logOut() async {
+  void logOut(BuildContext context) async {
     final FirebaseAuth authLogOut = FirebaseAuth.instance;
     await authLogOut.signOut();
+    print(context);
+    Fluttertoast.showToast(msg: "Context: ${context}");
+    Navigator.pop(context);
   }
 }

@@ -2,6 +2,7 @@ import 'package:authentication_app/UI/homeButtons.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main(){
   Firebase.initializeApp();
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Fluttertoast.showToast(msg: "Aready Logged in? Tap on LOG IN!");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Authentication Application",

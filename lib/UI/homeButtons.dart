@@ -1,8 +1,10 @@
 import 'package:authentication_app/UI/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';
+import 'logout.dart';
 
 class HomeButtons extends StatelessWidget{
   @override
@@ -55,10 +57,19 @@ class HomeButtons extends StatelessWidget{
       ),
       GestureDetector(
         onTap: (){
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login())
-          );
+          //Check if already logged in
+          if (FirebaseAuth.instance.currentUser != null){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Logout())
+            );
+          }
+          else{
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login())
+            );
+          }
         },
         child: Container(
           child: Text(
