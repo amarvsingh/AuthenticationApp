@@ -1,6 +1,8 @@
+import 'package:authentication_app/UI/forgot_pasword.dart';
 import 'package:authentication_app/UI/logout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -102,6 +104,37 @@ class Login extends StatelessWidget{
                         fontSize: 25.0,
                       ),
                       obscureText: true,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child:GestureDetector(
+                        onTap: (){
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => ForgotPassword())
+                          );
+                        },
+                        child: Container(
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          margin: EdgeInsets.all(10.0),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5.0,
+                            horizontal: 5.0,
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                        ),
+                      ),
                     ),
                     GestureDetector(
                       onTap: (){
@@ -208,7 +241,7 @@ class Login extends StatelessWidget{
     catch(e){
       //Handle Exceptions
       print(e);
-      Fluttertoast.showToast(msg: "Some unknown error occoured!");
+      Fluttertoast.showToast(msg: "Incorrect Password!");
     }
   }
 }

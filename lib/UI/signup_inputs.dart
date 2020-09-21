@@ -235,6 +235,7 @@ class SignupInputs extends StatelessWidget{
     //Creating account using inbuilt function
     try{
       authSignUp.createUserWithEmailAndPassword(email: email, password: password);
+      Fluttertoast.showToast(msg: "Account created Successfully");
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Logout())
@@ -242,7 +243,7 @@ class SignupInputs extends StatelessWidget{
     }
     catch(e){
       //Handle Exceptions
-      Fluttertoast.showToast(msg: "Some unknown error occoured!");
+      Fluttertoast.showToast(msg: "Email Address you have entered already exists!");
     }
   }
 }
