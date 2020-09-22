@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -234,7 +235,29 @@ class SignupInputs extends StatelessWidget{
   void signUpWithEmailandPassword(String fullname, String email, String password, String confirmPassword, BuildContext context) async {
     //Creating account using inbuilt function
     try{
-      authSignUp.createUserWithEmailAndPassword(email: email, password: password);
+      await authSignUp.createUserWithEmailAndPassword(email: email, password: password);
+      //To add the User information to the databse and then navigate
+      addDataToDatabase(fullname, email, context);
+    }
+    catch(e){
+      //Handle Exceptions
+      Fluttertoast.showToast(msg: "Email Address you have entered already exists!");
+    }
+  }
+
+  void addDataToDatabase(String fullname, String email, BuildContext context) {
+    try{
+      //Declaring Database references
+      FirebaseDatabase databaseSignUp = new FirebaseDatabase();
+      DatabaseReference referenceSignUp = databaseSignUp.reference().child("users");
+      //To get the UID of the newly added user
+      final User userSignUp = authSignUp.currentUser;
+      final String uid = userSignUp.uid.toString();
+      //To add the inputs into the database
+      referenceSignUp.child(uid).set({
+        "name" : fullname,
+        "email" : email
+      });
       Fluttertoast.showToast(msg: "Account created Successfully");
       Navigator.pushReplacement(
           context,
@@ -242,8 +265,8 @@ class SignupInputs extends StatelessWidget{
       );
     }
     catch(e){
-      //Handle Exceptions
-      Fluttertoast.showToast(msg: "Email Address you have entered already exists!");
+      //To handle errors
+      Fluttertoast.showToast(msg: "Some unknown error has occured!");
     }
   }
 }
