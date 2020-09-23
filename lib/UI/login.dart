@@ -1,3 +1,4 @@
+import 'package:authentication_app/UI/dashboard.dart';
 import 'package:authentication_app/UI/forgot_pasword.dart';
 import 'package:authentication_app/UI/logout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -235,7 +236,7 @@ class Login extends StatelessWidget{
        await authLogIn.signInWithEmailAndPassword(email: email, password: password);
        Navigator.pushReplacement(
            context,
-           MaterialPageRoute(builder: (context) => Logout())
+           MaterialPageRoute(builder: (context) => Dashboard())
        );
     }
     catch(e){

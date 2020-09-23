@@ -1,3 +1,4 @@
+import 'package:authentication_app/UI/dashboard.dart';
 import 'package:authentication_app/UI/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -61,7 +62,7 @@ class HomeButtons extends StatelessWidget{
           if (FirebaseAuth.instance.currentUser != null){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Logout())
+                MaterialPageRoute(builder: (context) => Dashboard())
             );
           }
           else{

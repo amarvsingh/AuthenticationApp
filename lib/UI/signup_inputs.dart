@@ -1,3 +1,4 @@
+import 'package:authentication_app/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -261,7 +262,7 @@ class SignupInputs extends StatelessWidget{
       Fluttertoast.showToast(msg: "Account created Successfully");
       Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Logout())
+          MaterialPageRoute(builder: (context) => Dashboard())
       );
     }
     catch(e){
