@@ -3,13 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main(){
+void main() {
   Firebase.initializeApp();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -24,39 +25,36 @@ class MyApp extends StatelessWidget{
       home: Material(
         child: Container(
           child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: Image(
-                    image: AssetImage("assets/images/logo1.png"),
-                  ),
-                  margin: EdgeInsets.all(20.0),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 30.0,
-                    horizontal: 30.0
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.1),
-                      width: 2.0,
-                    ),
-                    //color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: Image(
+                  image: AssetImage("assets/images/logo1.png"),
                 ),
-                HomeButtons(),
-            ],)
-          ),
-          decoration: BoxDecoration(gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
+                margin: EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.1),
+                    width: 2.0,
+                  ),
+                  //color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              HomeButtons(),
+            ],
+          )),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
                 Colors.lightBlue,
                 Colors.blue,
                 Colors.deepPurpleAccent,
-              ]
-          )),
+              ])),
         ),
       ),
     );
