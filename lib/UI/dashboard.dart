@@ -7,25 +7,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class Dashboard extends StatefulWidget{
+import './manage_schedule.dart';
+
+class Dashboard extends StatefulWidget {
   @override
   DashboardState createState() => DashboardState();
 }
 
-class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixin {
+class DashboardState extends State<Dashboard>
+    with SingleTickerProviderStateMixin {
   TabController tabController;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    tabController = new TabController(
-        vsync: this,
-        length: 3
-    );
+    tabController = new TabController(vsync: this, length: 3);
   }
 
   @override
-  void dispose(){
+  void dispose() {
     tabController.dispose();
     super.dispose();
   }
@@ -46,8 +46,7 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: <Widget>[
-          PopupOptionMenu(
-          ),
+          PopupOptionMenu(),
         ],
         bottom: TabBar(
           controller: tabController,
@@ -96,14 +95,11 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
 }
 
 //Menu facilitator
-enum MenuOption {
- logout,
- settings,
- feedback,
-}
+enum MenuOption { logout, settings, feedback, manage_schedule }
+
 // Class to build the menu
 class PopupOptionMenu extends StatelessWidget {
-  const PopupOptionMenu({Key key}) : super(key : key);
+  const PopupOptionMenu({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -112,8 +108,73 @@ class PopupOptionMenu extends StatelessWidget {
         Icons.menu,
         color: Colors.red,
       ),
-      itemBuilder: (BuildContext context1){
+      itemBuilder: (BuildContext context1) {
         return <PopupMenuEntry<MenuOption>>[
+          PopupMenuItem(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: Colors.red,
+                  ),
+                  padding: EdgeInsets.all(5),
+                ),
+                Container(
+                  child: Text(
+                    "Manage Schedule",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  padding: EdgeInsets.all(5),
+                )
+              ],
+            ),
+            value: MenuOption.manage_schedule,
+          ),
+          PopupMenuItem(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.red,
+                  ),
+                  padding: EdgeInsets.all(5),
+                ),
+                Container(
+                  child: Text(
+                    "Settings",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  padding: EdgeInsets.all(5),
+                ),
+              ],
+            ),
+            value: MenuOption.settings,
+          ),
+          PopupMenuItem(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Icon(
+                    Icons.feedback,
+                    color: Colors.red,
+                  ),
+                  padding: EdgeInsets.all(5),
+                ),
+                Container(
+                  child: Text(
+                    "Feedback",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  padding: EdgeInsets.all(5),
+                ),
+              ],
+            ),
+            value: MenuOption.feedback,
+          ),
           PopupMenuItem(
             child: Row(
               children: <Widget>[
@@ -137,57 +198,14 @@ class PopupOptionMenu extends StatelessWidget {
             ),
             value: MenuOption.logout,
           ),
-          PopupMenuItem(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: Icon(
-                    Icons.settings,
-                    color: Colors.red,
-                  ),
-                  padding: EdgeInsets.all(5),
-                ),
-                Container(
-                    child: Text(
-                      "Settings",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  padding: EdgeInsets.all(5),
-                ),
-              ],
-            ),
-            value: MenuOption.settings,
-          ),
-          PopupMenuItem(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: Icon(
-                    Icons.feedback,
-                    color: Colors.red,
-                  ),
-                  padding: EdgeInsets.all(5),
-                ),
-                Container(
-                  child: Text(
-                    "Feedback", 
-                    style: TextStyle(
-                        color: Colors.black
-                    ),
-                  ),
-                  padding: EdgeInsets.all(5),
-                ),
-              ],
-            ),
-            value: MenuOption.feedback,
-          ),
         ];
       },
-      onSelected: (selection){
-        if (selection == MenuOption.logout){
+      onSelected: (selection) {
+        if (selection == MenuOption.logout) {
           logOut(context);
+        }
+        if (selection == MenuOption.manage_schedule) {
+          manageSchedule(context);
         }
       },
     );
@@ -200,4 +218,9 @@ class PopupOptionMenu extends StatelessWidget {
     Fluttertoast.showToast(msg: "Context: $context");
     Navigator.pop(context);
   }
+}
+
+void manageSchedule(BuildContext context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => ManageSchedule()));
 }
