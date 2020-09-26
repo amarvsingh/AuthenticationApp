@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class DashboardFirst extends StatelessWidget{
+class DashboardFirst extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Align(
         alignment: Alignment.bottomRight,
         child: Container(
@@ -22,24 +24,22 @@ class DashboardFirst extends StatelessWidget{
             color: Colors.black,
             borderRadius: BorderRadius.circular(50),
           ),
-
         ),
       ),
-      height: double.infinity,
-      width: double.infinity,
       padding: EdgeInsets.symmetric(
         vertical: 20.0,
         horizontal: 20.0,
       ),
-      decoration: BoxDecoration(gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.deepOrangeAccent,
-            Colors.redAccent,
-            Colors.red,
-          ]
-      ),),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.deepOrangeAccent,
+              Colors.redAccent,
+              Colors.red,
+            ]),
+      ),
     );
   }
 

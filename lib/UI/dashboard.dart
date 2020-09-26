@@ -35,61 +35,89 @@ class DashboardState extends State<Dashboard>
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Dashboard",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 30.0,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primarySwatch: Colors.amber,
+          textTheme: GoogleFonts.aBeeZeeTextTheme(
+            Theme.of(context).textTheme,
+          )),
+      home: Material(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "Dashboard",
+                      style: GoogleFonts.aBeeZee(
+                          textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25.0,
+                      )),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              PopupOptionMenu(),
+            ],
+            bottom: TabBar(
+              controller: tabController,
+              tabs: <Tab>[
+                new Tab(
+                  child: Text(
+                    "UPCOMING",
+                    style: GoogleFonts.aBeeZee(
+                        textStyle: TextStyle(
+                      color: Colors.black,
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
+                    )),
+                  ),
+                ),
+                new Tab(
+                  child: Text("REQUESTED",
+                      style: GoogleFonts.aBeeZee(
+                          textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                      ))),
+                ),
+                new Tab(
+                  child: Text(
+                    "MY PROFILE",
+                    style: GoogleFonts.aBeeZee(
+                        textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: new TabBarView(
+              controller: tabController,
+              children: <Widget>[
+                new DashboardFirst(),
+                new DashboardSecond(),
+                new DashboardThird(),
+              ],
+            ),
           ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          PopupOptionMenu(),
-        ],
-        bottom: TabBar(
-          controller: tabController,
-          tabs: <Tab>[
-            new Tab(
-              child: Text(
-                "Upcoming",
-                style: TextStyle(
-                  color: Colors.black,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-            new Tab(
-              child: Text(
-                "Requested",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-            new Tab(
-              child: Text(
-                "Your profile",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: new TabBarView(
-        controller: tabController,
-        children: <Widget>[
-          new DashboardFirst(),
-          new DashboardSecond(),
-          new DashboardThird(),
-        ],
       ),
     );
   }

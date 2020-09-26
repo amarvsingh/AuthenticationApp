@@ -35,10 +35,12 @@ class _ManageScheduleState extends State<ManageSchedule> {
       debugShowCheckedModeBanner: false,
       title: "Manage Schedule",
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        accentColor: Colors.orangeAccent,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          primarySwatch: Colors.orange,
+          accentColor: Colors.orangeAccent,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.aBeeZeeTextTheme(
+            Theme.of(context).textTheme,
+          )),
       home: Material(
         child: SingleChildScrollView(
           child: Container(
