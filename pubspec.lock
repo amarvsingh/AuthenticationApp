@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
+  date_util:
+    dependency: "direct main"
+    description:
+      name: date_util
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   fake_async:
     dependency: transitive
     description:
@@ -226,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  jiffy:
+    dependency: "direct main"
+    description:
+      name: jiffy
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   js:
     dependency: transitive
     description:
@@ -371,13 +385,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.17"
-  time_slot_picker:
-    dependency: "direct main"
-    description:
-      name: time_slot_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
